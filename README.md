@@ -48,6 +48,7 @@ Supprime le numéro de version de Wordpress, pour une question de sécurité.
 ### wp-disable-update.php
 7 façons de désactiver les notifications de mise à jour et les correctifs de maintenance dans WordPress.
 Pour les utilisateurs autre que l'administrateur.
+L'administrateur vois encore les notifications de mise à jour.
 
 ### wp-help-tabs.php
 Supprime les onglets d'aide, pour les utilisateurs non-administrateurs
