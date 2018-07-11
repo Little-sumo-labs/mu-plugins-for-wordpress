@@ -8,7 +8,7 @@
  * Plugin URI:  https://guillaume-richard.fr/
  * Plugin Name: WP Disable Update
  * Description: 7 Ways to Disable Update Notifications and Maintenance Nags in WordPress
- * Version:     0.1.0
+ * Version:     0.1.1
  * Author:      wpoptimus
  * Author URI:  http://www.wpoptimus.com/626/7-ways-disable-update-wordpress-notifications/
  * License:     GNU General Public License v3 or later
@@ -29,7 +29,7 @@ function disable_update() {
     if ( is_user_logged_in() ) {
         $current_user = wp_get_current_user();
 
-        if ($current_user->roles[0] === "administrator") {
+        if ($current_user->roles[0] !== "administrator") {
             // Disable Update WordPress nag
             add_action('after_setup_theme','wpc_remove_core_updates');
 
