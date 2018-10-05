@@ -32,4 +32,6 @@ function wpc_rememberme_checked() {
 }
 
 // change the connection error message
-add_filter('login_errors', create_function('$no_login_error', "return 'Mauvais identifiants';"));
+add_filter('login_errors', function($no_login_error) {
+    return "Mauvais identifiants";
+});
