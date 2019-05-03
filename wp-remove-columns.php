@@ -1,19 +1,18 @@
 <?php
 /**
  * @link              https://guillaume-richard.fr/
- * @since             0.1.0
+ * @since             1.0.0
  * @package           mu-plugins
  *
  * @wordpress-plugin
  * Plugin URI:  https://guillaume-richard.fr/
  * Plugin Name: WP Remove Columns
  * Description: Remove columns and Media columns in list view
- * Version:     0.1.0
+ * Version:     1.0.0
  * Author:      Guillaume RICHARD
  * Author URI:  https://guillaume-richard.fr/
  * License:     GNU General Public License v3 or later
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
- * Domain Path: /languages
  * WordPress Available:  yes
  * Requires License:    no
  */

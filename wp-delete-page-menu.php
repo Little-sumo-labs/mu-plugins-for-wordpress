@@ -1,19 +1,18 @@
 <?php
 /**
  * @link              https://guillaume-richard.fr/
- * @since             0.1.0
+ * @since             1.0.0
  * @package           mu-plugins
  *
  * @wordpress-plugin
  * Plugin URI:  https://guillaume-richard.fr/
  * Plugin Name: WP Remove Menu
  * Description: Deleting page from the WP administration menu
- * Version:     0.1.0
+ * Version:     1.0.0
  * Author:      Guillaume RICHARD
  * Author URI:  https://guillaume-richard.fr/
  * License:     GNU General Public License v3 or later
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
- * Domain Path: /languages
  * WordPress Available:  yes
  * Requires License:    no
  */
@@ -22,10 +21,7 @@
 defined( 'ABSPATH' ) or die( 'Cheatin&#8217; uh?' );
 
 // Liste des pages qu'il faut enlever du menu
-$pages = [
-    'tools', 'options-general', 'options-writing', 'options-reading',
-    'options-discussion', 'options-permalink', 'options-media'
-];
+$pages = ['tools'];
 
 // Fonction de suppression des pages
 function remove_menus() {
