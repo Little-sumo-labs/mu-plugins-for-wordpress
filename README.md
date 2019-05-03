@@ -67,8 +67,8 @@ Suppression de colonnes (donc la colonnes de médias) dans la list view
 ### wp-remove-metaboxes.php
 Suppression des Metabox inutiles dans les Posts
 
-### wp-secure-api.php
-Désactiver ou verrouiller la REST API et le XML RPC de WordPress
+### wp-wpvulndb-widget.php
+Affiche, dans le Dashboard de Wordpress, les dernières vulnérabilités recensé des plugins
 
 ## Liens utiles
 * [Must Use Plugins](https://codex.wordpress.org/Must_Use_Plugins)
