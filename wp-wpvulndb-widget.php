@@ -20,7 +20,6 @@
 /**
  * Inspiration :
  * Flux RSS wpvulndb - https://wpvulndb.com/feed.xml
- * https://www.screenfeed.fr/blog/personnaliser-administration-wordpress-0327/
  * https://codex.wordpress.org/Function_Reference/wp_add_dashboard_widget
  */
 
@@ -33,16 +32,22 @@ function sf_dashboard_widgets() {
 
 function wpvulndb_widget() {
     $data = [];
-    $wpvulndb = simplexml_load_file('https://wpvulndb.com/feed.xml');
+    $feed = "https://wpvulndb.com/feed.xml";
+
+    read_xml($feed, $msg = "Erreur lors du chargement du flux RSS");
+
+    $wpvulndb = simplexml_load_file($feed);
     foreach ($wpvulndb->entry as $entry) {
-        $tmp["title"] = $entry->title;
-        $tmp["link"] = $entry->link['href'];
-        $tmp["date"] = extract_date($entry->updated);
+        $tmp["id"]      = extract_id($entry->id);
+        $tmp["title"]   = $entry->title;
+        $tmp["link"]    = $entry->link['href'];
+        $tmp["date"]    = extract_date($entry->published);
 
         $data[] = $tmp;
     }
 
-    $data = orderBy($data, 'date', 'desc');
+    $data = orderBy($data, 'id', 'desc');
+    $data = limit($data);
 
     foreach ($data as $info) {
         echo $info['date'] . " : <a target='_blank' href=".$info['link'].">".$info['title']."</a><br />";
@@ -50,17 +55,43 @@ function wpvulndb_widget() {
 }
 
 /**
- * @param date $date
- * @return string $dateFr
+ * display errors when loading the XML file
+ * @param string $feed
+ * @param string $msg
  */
-function extract_date($date) {
-    $year   = substr($date,0,4);
-    $month  = substr($date,5,2);
-    $day    = substr($date,8,2);
+function read_xml($feed, $msg) {
+    libxml_use_internal_errors(true);
+    if (file_get_contents($feed) === false) {
+        foreach(libxml_get_errors() as $error) {
+            echo "\t", $error->message;
+        }
+        exit($msg);
+    }
+}
 
-    $dateFr = $day."-".$month."-".$year;
+/**
+ * Return the date in the requested format
+ * @url https://www.php.net/manual/fr/function.date.php
+ * @param $date
+ * @param string $output_format
+ * @return false|string
+ */
+function extract_date($date, $output_format = "d-m-Y") {
+    [$year, $month, $day, $hour, $minute, $second] = multiexplode(["-","T",":","Z"],$date);
+    $output_date = date($output_format, mktime($hour, $minute, $second, $month, $day, $year));
 
-    return $dateFr;
+    return $output_date;
+}
+
+/**
+ * Extract the ID of the URL set as parameter
+ * @param string $id
+ * @return int $value
+ */
+function extract_id($id) {
+    [$url, $value] = $pieces = explode("/", $id);
+
+    return (int)$value;
 }
 
 /**
@@ -84,4 +115,29 @@ function orderBy($items, $attr, $order)
     }
 
     return array_values($sortedItems);
+}
+
+/**
+ * return the first N elements of an array
+ * @param array $items
+ * @param int $limit
+ * @return array $output
+ */
+function limit($items, $limit = 20) {
+    $output = array_slice($items, 0, $limit);
+
+    return $output;
+}
+
+/**
+ * Splits a string into segments, via multiple delimiters
+ * @param array $delimiters
+ * @param string $string
+ * @return array $launch
+ */
+function multiexplode($delimiters,$string) {
+
+    $ready = str_replace($delimiters, $delimiters[0], $string);
+    $launch = explode($delimiters[0], $ready);
+    return $launch;
 }
