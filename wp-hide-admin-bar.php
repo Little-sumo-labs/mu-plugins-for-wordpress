@@ -1,20 +1,10 @@
 <?php
 /**
- * @link              https://guillaume-richard.fr/
- * @since             1.0.0
- * @package           mu-plugins
- *
- * @wordpress-plugin
- * Plugin URI:  https://guillaume-richard.fr/
  * Plugin Name: WP Hide Admin Bar
  * Description: Hides the Admin Bar (Works since WordPress 3.1, until the latest version)
- * Version:     1.0.0
+ * Version:     1.0
  * Author:      Guillaume RICHARD (credits to Yoast, and Pete Mall)
  * Author URI:  https://guillaume-richard.fr/
- * License:     GNU General Public License v3 or later
- * License URI: http://www.gnu.org/licenses/gpl-3.0.html
- * WordPress Available:  yes
- * Requires License:    no
  */
 
 // Basic security, prevents file from being loaded directly.
