@@ -21,42 +21,47 @@ function sf_dashboard_widgets() {
 }
 
 function wpvulndb_widget() {
-    $data = [];
-    $feed = "https://wpvulndb.com/feed.xml";
+    $data       = [];
+    $feed       = "https://wpvulndb.com/feed.xml";
+    $error_msg  = "Erreur lors du chargement du flux RSS";
 
-    read_xml($feed, $msg = "Erreur lors du chargement du flux RSS");
+    if (read_xml($feed) === false) {
+        echo $error_msg;
+    } else {
+        $wpvulndb = simplexml_load_file($feed);
+        foreach ($wpvulndb->entry as $entry) {
+            $tmp["id"]      = extract_id($entry->id);
+            $tmp["title"]   = $entry->title;
+            $tmp["link"]    = $entry->link['href'];
+            $tmp["date"]    = extract_date($entry->published);
 
-    $wpvulndb = simplexml_load_file($feed);
-    foreach ($wpvulndb->entry as $entry) {
-        $tmp["id"]      = extract_id($entry->id);
-        $tmp["title"]   = $entry->title;
-        $tmp["link"]    = $entry->link['href'];
-        $tmp["date"]    = extract_date($entry->published);
+            $data[] = $tmp;
+        }
 
-        $data[] = $tmp;
-    }
+        $data = orderBy($data, 'id', 'desc');
+        $data = limit($data);
 
-    $data = orderBy($data, 'id', 'desc');
-    $data = limit($data);
-
-    foreach ($data as $info) {
-        echo $info['date'] . " : <a target='_blank' href=".$info['link'].">".$info['title']."</a><br />";
+        foreach ($data as $info) {
+            echo $info['date'] . " : <a target='_blank' href=".$info['link'].">".$info['title']."</a><br />";
+        }
     }
 }
 
 /**
  * display errors when loading the XML file
  * @param string $feed
- * @param string $msg
+ * @return bool
  */
-function read_xml($feed, $msg) {
+function read_xml($feed) {
     libxml_use_internal_errors(true);
-    if (file_get_contents($feed) === false) {
-        foreach(libxml_get_errors() as $error) {
-            echo "\t", $error->message;
-        }
-        exit($msg);
+    $rssfeed = file_get_contents($feed);
+
+    if ($rssfeed !== false) { return true; }
+
+    foreach(libxml_get_errors() as $error) {
+        echo "\t", $error->message;
     }
+    return false;
 }
 
 /**
