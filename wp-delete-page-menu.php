@@ -11,7 +11,8 @@
 defined( 'ABSPATH' ) or die( 'Cheatin&#8217; uh?' );
 
 // Liste des pages qu'il faut enlever du menu
-$pages = ['tools'];
+// $pages = ['tools'];
+$pages = [];
 
 // Fonction de suppression des pages
 function remove_menus() {
